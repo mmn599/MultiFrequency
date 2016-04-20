@@ -32,7 +32,7 @@ int main(void) {
 
     sample_function_ptr_t sampleFunctionPointer = copy_to_ram();
 
-    uint16_t data_buff[NUM_DATA];
+    uint16_t data_buff[NUM_DATA*2];
 
 	uint32_t bins[NUM_BINS] = {1};
 	float real[NUM_BINS];
@@ -45,15 +45,16 @@ int main(void) {
 
     while(1) {
 
-    	P4OUT = dac_table[i & 0xFF];
-    	i++;
-
+    	for(i=0;i<NUM_DATA*2;i++) {
+    		P4OUT = dac_table[i];
+    		ADC14_toggleConversionTrigger();
+    		while(ADC14_isBusy()) { }
+    		data_buff[i] = ADC14_getResult(ADC_MEM0);
+    	}
 
 //    	sampleLoop(data_buff, dac_table, sampleFunctionPointer, NUM_DATA);
-//    	dft_float(data_buff, NUM_DATA, realresults, imagresults, powerresults);
-//    	sendDFTUART(data_buff, powerresults, NUM_DATA);
-
-
+    	dft_float(data_buff, NUM_DATA*2, realresults, imagresults, powerresults);
+    	sendDFTUART(data_buff, powerresults, NUM_DATA*2);
 
 //    	goertzels_float(data_buff, NUM_DATA, bins, NUM_BINS, real, imag);
 //    	sendGoertzDataUART(NUM_BINS, real, imag);
