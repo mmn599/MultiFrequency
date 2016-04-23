@@ -16,7 +16,6 @@ int main(void) {
     WDT_A_holdTimer();
 
     CS_Init();
-//    ADC14CTL0 = 0;
     ADC_Init();
     GPIO_Init();
     UART_Init();
@@ -37,24 +36,26 @@ int main(void) {
 	uint32_t bins[NUM_BINS] = {1};
 	float real[NUM_BINS];
 	float imag[NUM_BINS];
-	float realresults[NUM_DATA];
-	float imagresults[NUM_DATA];
-	float powerresults[NUM_DATA];
+	float realresults[NUM_DATA*2];
+	float imagresults[NUM_DATA*2];
+	float powerresults[NUM_DATA*2];
 
 	i = 0;
 
     while(1) {
 
-    	for(i=0;i<NUM_DATA*2;i++) {
+    	/*for(i=0;i<NUM_DATA*2;i++) {
     		P4OUT = dac_table[i];
     		ADC14_toggleConversionTrigger();
     		while(ADC14_isBusy()) { }
     		data_buff[i] = ADC14_getResult(ADC_MEM0);
-    	}
+    	}*/
 
-//    	sampleLoop(data_buff, dac_table, sampleFunctionPointer, NUM_DATA);
-    	dft_float(data_buff, NUM_DATA*2, realresults, imagresults, powerresults);
-    	sendDFTUART(data_buff, powerresults, NUM_DATA*2);
+//		sendDFTUART(data_buff, powerresults, NUM_DATA*2);
+
+    	sampleLoop(data_buff, dac_table, sampleFunctionPointer, NUM_DATA);
+//    	dft_float(data_buff, NUM_DATA, realresults, imagresults, powerresults);
+//    	sendDFTUART(data_buff, powerresults, NUM_DATA);
 
 //    	goertzels_float(data_buff, NUM_DATA, bins, NUM_BINS, real, imag);
 //    	sendGoertzDataUART(NUM_BINS, real, imag);
