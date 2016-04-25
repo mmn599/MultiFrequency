@@ -31,7 +31,7 @@ int main(void) {
 
     sample_function_ptr_t sampleFunctionPointer = copy_to_ram();
 
-    uint16_t data_buff[NUM_DATA*2];
+    uint16_t data_buff[NUM_DATA];
 
 	uint32_t bins[NUM_BINS] = {1};
 	float real[NUM_BINS];
@@ -55,7 +55,7 @@ int main(void) {
 
     	sampleLoop(data_buff, dac_table, sampleFunctionPointer, NUM_DATA);
 //    	dft_float(data_buff, NUM_DATA, realresults, imagresults, powerresults);
-//    	sendDFTUART(data_buff, powerresults, NUM_DATA);
+    	sendDFTUART(data_buff, powerresults, NUM_DATA);
 
 //    	goertzels_float(data_buff, NUM_DATA, bins, NUM_BINS, real, imag);
 //    	sendGoertzDataUART(NUM_BINS, real, imag);

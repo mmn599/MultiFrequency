@@ -8,8 +8,10 @@
 #ifndef MULTIFREQUENCY_CONSTANTS_H_
 #define MULTIFREQUENCY_CONSTANTS_H_
 
-#define NUM_DATA 128
+#define NUM_DATA_IN_PERIOD 128
 #define NUM_BINS 1
+#define NUM_PERIODS 2
+#define NUM_DATA NUM_DATA_IN_PERIOD * NUM_PERIODS
 
 #include "driverlib.h"
 
