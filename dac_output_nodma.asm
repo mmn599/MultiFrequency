@@ -23,8 +23,6 @@ output_and_sample:
 
 		mov r2, #2			;LOOPS_BETWEEN calculation
 
-		mov r11, r0
-
 		lsl r3, r3, #1
 		add r3, r3, r0
 
@@ -39,6 +37,8 @@ output_and_sample:
 
 		mov r10, #0
 
+		mov r11, #0
+
        	;r0 is output data table pointer
         ;r1 is dac table pointer
         ;r2 is LOOPS_BETWEEN calculation + 1
@@ -50,12 +50,14 @@ output_and_sample:
         ;r8 contains data_table index
         ;r9 contains temporary values
 		;r10 contains loop counter
-		;r11 is size of DAC table (same as number of sample points)
+		;r11 contains dac table index
 		;r12 contains ADC14MEM0
 
 update_dac:
 		;move value in P4OUT for DAC
-		ldrb r9, [r1], #1
+		ldrb r9, [r1, r11]
+		add r11, r11, #1
+		and r11, r11, #63
    		strb r9, [r4] ;3 cycles due to pipelining
 
 trigger_check:

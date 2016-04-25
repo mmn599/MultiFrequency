@@ -1,5 +1,7 @@
 #include "dsp.h"
 
+#define PI 3.1415926535897932
+
 void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* imagresults, float* powerresults) {
 	int i = 0;
 	//calculate mean of data to renormalize
@@ -29,21 +31,14 @@ void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* im
 	}
 }
 
-/*
- * index 0...bin 1
- * index 1...bin 3
- * index 2...bin 5
- */
-float FLOAT_COS_VALUES[NUM_BINS] = {0.99909896620468153, 0.99190043525887683, 0.97755523894768614};
-float FLOAT_SIN_VALUES[NUM_BINS] = {0.042441203196148303, 0.12701781974687876, 0.21067926999572631};
-float FLOAT_COEFF_VALUES[NUM_BINS] = {1.9981979324093631, 1.9838008705177537, 1.9551104778953723};
-
 void goertzels_float(uint16_t* data_buff, uint32_t data_size, uint32_t* bins, uint8_t bin_count, float* real, float* imag) {
 	int b;
 	for(b=0;b<bin_count;b++) {
-		float cosvalue = FLOAT_COS_VALUES[b];
-		float sinvalue = FLOAT_SIN_VALUES[b];
-		float coeff = FLOAT_COEFF_VALUES[b];
+
+		float w0 = 2.0*3.1415926535897932*bins[b]/data_size;
+		float cosvalue = cos(w0);
+		float sinvalue = sin(w0);
+		float coeff = 2*cosvalue;
 
 		float q0 = 	0;
 		float q1 = 0;
