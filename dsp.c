@@ -14,13 +14,13 @@
  * 			powerresults: pointer to store magnitude DFT values ( sqrt(real^2 + imag^2) )
  */
 void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* imagresults, float* powerresults) {
-	int i = 0;
+	int i;
 	//calculate mean of data to renormalize
 	float sum = 0;
 	for(i=0;i<data_size;i++) {
-		sum = sum + (float)data[i];
+		sum = sum + data[i];
 	}
-	float mean = sum/(float)data_size;
+	float mean = sum/data_size;
 
 	//calculate DFT coefficients
 	int k;
@@ -29,9 +29,9 @@ void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* im
 		float real_sum = 0;
 		float imag_sum = 0;
 		for(n=0;n<data_size;n++) {
-			float n_value = (float)data[n] - mean;
-			float cos_value = cos(2.0*3.14159*(float)k*(float)n/(float)data_size);
-			float sin_value = sin(2.0*3.14159*(float)k*(float)n/(float)data_size);
+			float n_value = data[n] - mean;
+			float cos_value = cos(2.0*3.14159*k*n/data_size);
+			float sin_value = sin(2.0*3.14159*k*n/data_size);
 			real_sum += n_value*cos_value;
 			imag_sum += (-1)*n_value*sin_value;
 		}
@@ -70,8 +70,7 @@ void goertzels_float(uint16_t* data_buff, uint32_t data_size, uint32_t* bins, ui
 
 		int i;
 		for(i=0;i<data_size;i++) {
-			float value = (float)data_buff[i];
-			q0 = coeff*q1 - q2 + value;
+			q0 = coeff*q1 - q2 + data_buff[i];
 			q2 = q1;
 			q1 = q0;
 		}
