@@ -2,6 +2,17 @@
 
 #define PI 3.1415926535897932
 
+/**
+ * function dft_float
+ * 		Calculates the DFT of the input data
+ * 		Inputs:
+ * 			data: unsigned 16 bit integers sampled from ADC
+ * 			data_size: size of data to operate on
+ * 		Outputs:
+ * 			realresults: pointer to store real DFT values
+ * 			imagresults: pointer to store imaginary DFT values
+ * 			powerresults: pointer to store magnitude DFT values ( sqrt(real^2 + imag^2) )
+ */
 void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* imagresults, float* powerresults) {
 	int i = 0;
 	//calculate mean of data to renormalize
@@ -31,6 +42,19 @@ void dft_float(uint16_t* data, uint32_t data_size, float* realresults, float* im
 	}
 }
 
+/**
+ * function Goertzel's float
+ * 		A floating point implementation of Goertzel's algorithm, which efficiently computes a single bin of the DFT.
+ * 		This function performs Goertzel's on multiple bins, depending on how many frequencies we are measuring.
+ * 		Inputs:
+ * 			data_buff: unsigned 16 bit integers sampled from ADC
+ * 			data_size: size of data to operate on
+ * 			bins: list of which DFT bins we care about
+ * 			bin_count: number of bins we care about
+ * 		Outputs:
+ * 			real: pointer to store real values for each desired bin
+ * 			imagresults: pointer to store imaginary values for each desired bin
+ */
 void goertzels_float(uint16_t* data_buff, uint32_t data_size, uint32_t* bins, uint8_t bin_count, float* real, float* imag) {
 	int b;
 	for(b=0;b<bin_count;b++) {
@@ -56,6 +80,12 @@ void goertzels_float(uint16_t* data_buff, uint32_t data_size, uint32_t* bins, ui
 		imag[b] = q1*sinvalue;
 	}
 }
+
+
+// ===============================================================
+// BELOW CODE IS A WORK IN PROGRESS
+//
+
 
 /*
  * index 0...bin 1

@@ -36,9 +36,6 @@ int main(void) {
 
 	float real[NUM_BINS];
 	float imag[NUM_BINS];
-	float realresults[NUM_DATA];
-	float imagresults[NUM_DATA];
-	float powerresults[NUM_DATA];
 
 	i = 0;
 
